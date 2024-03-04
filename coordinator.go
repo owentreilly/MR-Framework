@@ -21,7 +21,7 @@ type TaskMetaData struct {
 }
 
 type Coordinator struct {
-	// Your definitions here.
+	// definitions here.
 	mapTasks              map[int]TaskMetaData //map of map tasks that are not started
 	mapTasksInProgress    map[int]TaskMetaData //map of map tasks that are in progress
 	mapTasksDone          map[int]TaskMetaData //map of map tasks that are done
@@ -91,7 +91,7 @@ func (c *Coordinator) GetTask(args *GetTaskArgs, reply *GetTaskResponse) error {
 		delete(c.mapTasks, k.TaskID)
 		c.mutex.Unlock()
 		//go rescheduler(k.TaskID, "map", c)
-		fmt.Println("sending map task", k, "to worker")
+
 		reply.Name = file
 		reply.TaskType = "map"
 		reply.Number = k.TaskID
@@ -120,7 +120,6 @@ func (c *Coordinator) GetTask(args *GetTaskArgs, reply *GetTaskResponse) error {
 		reply.Number = k.TaskID
 		reply.NReduce = c.nReduce
 		c.mutex.Unlock()
-		//go rescheduler(k.TaskID, "reduce", c)
 
 		return nil
 
@@ -157,7 +156,7 @@ func (c *Coordinator) UpdateTask(args *UpdateTaskArgs, reply *UpdateTaskReply) e
 		c.mapTasksDone[args.Number] = TaskMetaData{args.Number, file}
 		c.mapsRemaining--
 		c.mutex.Unlock()
-		fmt.Println("map task", args.Number, "completed")
+
 		return nil
 
 	} else if args.TaskType == "reduce" {

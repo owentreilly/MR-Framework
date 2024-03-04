@@ -40,10 +40,6 @@ func ihash(key string) int {
 func Worker(mapf func(string, string) []KeyValue,
 	reducef func(string, []string) string) {
 
-	// Your worker implementation here.
-
-	// uncomment to send the Example RPC to the coordinator.
-	//CallExample()
 	for {
 
 		reply, err := CallGetTask()
@@ -60,7 +56,7 @@ func Worker(mapf func(string, string) []KeyValue,
 
 			CallUpdateTask(reply.Number, "reduce")
 		} else if reply.TaskType == "wait" {
-			//fmt.Println("No task, waiting for .5 seconds before asking again")
+			//"No task, waiting for .5 seconds before asking again"
 			time.Sleep(500 * time.Millisecond)
 		} else {
 			exit, _ := CallCheckExit()
